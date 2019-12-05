@@ -3,22 +3,40 @@
 
 ## Built With
 
-* [Python](https://www.python.org/) - s
-* [MatLab](https://www.mathworks.com/products/matlab.html/) - 
+* [Python][1] - 
+* [MatLab][2] - 
 
 ## Versioning
 
-We use [Github](https://github.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/LeooLeoo/master-thesis-project).
+We use [Github][3] for versioning. For the versions available, see the [tags on this repository][4].
 
 ## Demo
 -
 
 ## Authors
 
-* **Jintai Liu** - [LeooLeoo](https://github.com/LeooLeoo) 
+* **Jintai Liu** - [LeooLeoo][5] 
 * **Antoine Honoré** - 
 * **Eric Herlenius** - 
 
+### Work to do:
+- [ ] Parse the data
+- [ ] Data understanding & preparation
+- [ ] Related theories understanding
+- [ ] Data preprocessing
+- [ ] Feature extraction from time series
+- [ ] Model construction and evaluation
+- [ ] Result analysis and conclusion
+- [ ] Thesis formation
+
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE][6] file for details
+
+[1]:	https://www.python.org/
+[2]:	https://www.mathworks.com/products/matlab.html/
+[3]:	https://github.com/
+[4]:	https://github.com/LeooLeoo/master-thesis-project
+[5]:	https://github.com/LeooLeoo
+[6]:	LICENSE
