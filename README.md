@@ -30,13 +30,9 @@ We use [Github][3] for versioning. For the versions available, see the [tags on 
 - [ ] Thesis formation
 
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE][6] file for details
 
 [1]:	https://www.python.org/
 [2]:	https://www.mathworks.com/products/matlab.html/
 [3]:	https://github.com/
 [4]:	https://github.com/LeooLeoo/master-thesis-project
 [5]:	https://github.com/LeooLeoo
-[6]:	LICENSE
