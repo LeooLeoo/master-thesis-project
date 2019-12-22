@@ -1,0 +1,369 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Data preparation\n",
+    "This code is to export the data from software LabChart .adicht file to time series .csv file.\n",
+    "\n",
+    "Sample data is no.17273, date:13-11-2017; \n",
+    "## export the raw data\n",
+    "> First the raw data is export from software LabChart into .txt file with:\n",
+    "> * necessary labels (comments from the software)\n",
+    "> * Channel:TP-AmnP (TP-AP 273), FHR (Heart Rate A)\n",
+    "> * Output NaN for values, Time (always seconds), Date, Ignore regional options\n",
+    "> * Downsample: 500 (0.5s/ponit)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## transform into pd.dataframe\n",
+    "> After that, load the data and add column names:\n",
+    "> * load all libraries\n",
+    "> * specify the path to the data\n",
+    "> * add column names and transform the raw data into correct dtype"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#load libraries\n",
+    "from datetime import datetime, timedelta\n",
+    "from dateutil import parser\n",
+    "import numpy as np\n",
+    "import pandas as pd\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn; seaborn.set()\n",
+    "import csv\n",
+    "\n",
+    "#specify the data dir\n",
+    "data_file = '/Users/leeo/Desktop/KI2/7.master_thesis/1.data/txt_17273/17273_13-11-17.txt'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/anaconda3/envs/p3/lib/python3.7/site-packages/IPython/core/interactiveshell.py:3049: DtypeWarning: Columns (4) have mixed types. Specify dtype option on import or set low_memory=False.\n",
+      "  interactivity=interactivity, compiler=compiler, result=result)\n"
+     ]
+    },
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Time</th>\n",
+       "      <th>Date</th>\n",
+       "      <th>Resp</th>\n",
+       "      <th>HR</th>\n",
+       "      <th>Comments</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>159107</th>\n",
+       "      <td>30483.2849</td>\n",
+       "      <td>11/14/17</td>\n",
+       "      <td>154.6635</td>\n",
+       "      <td>0.917521</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>159108</th>\n",
+       "      <td>30483.7849</td>\n",
+       "      <td>11/14/17</td>\n",
+       "      <td>163.5068</td>\n",
+       "      <td>2.076822</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>159109</th>\n",
+       "      <td>30484.2849</td>\n",
+       "      <td>11/14/17</td>\n",
+       "      <td>164.5599</td>\n",
+       "      <td>2.014240</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>159110</th>\n",
+       "      <td>30484.7849</td>\n",
+       "      <td>11/14/17</td>\n",
+       "      <td>161.2966</td>\n",
+       "      <td>1.218637</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>159111</th>\n",
+       "      <td>30485.2849</td>\n",
+       "      <td>11/14/17</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>2.110855</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "              Time      Date      Resp        HR Comments\n",
+       "159107  30483.2849  11/14/17  154.6635  0.917521      NaN\n",
+       "159108  30483.7849  11/14/17  163.5068  2.076822      NaN\n",
+       "159109  30484.2849  11/14/17  164.5599  2.014240      NaN\n",
+       "159110  30484.7849  11/14/17  161.2966  1.218637      NaN\n",
+       "159111  30485.2849  11/14/17       NaN  2.110855      NaN"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data = pd.read_csv(data_file, sep=\"\\t\", header=None, names=[\"Time\",\"Date\",\"Resp\",\"HR\",\"Comments\"])#care of \n",
+    "data.tail()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'/Users/leeo/Desktop/KI2/7.master_thesis/4.github/master-thesis-project/codes'"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "pwd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#load the data\n",
+    "data = pd.DataFrame(pd.read_csv(data_file, header=0))\n",
+    "data.columns = [\"Time\",\"Date\",\"Resp\",\"HR\"]\n",
+    "data['Time'] = pd.to_timedelta(data['Time'], \"s\")\n",
+    "data['Date'] = pd.to_datetime(data['Date'])\n",
+    "print(\"Please check the values for each column! If anything wrong, please recheck the channels!\")\n",
+    "data.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## transform the data into time series\n",
+    "> * combine the date and time into Date_Time\n",
+    "> * transform the data into time series\n",
+    "> * check the time intervals of data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#combine the date and time\n",
+    "data['Date_Time'] = data['Date']+data['Time']\n",
+    "del data['Date'], data['Time']\n",
+    "\n",
+    "#tranform the time into index\n",
+    "data.index = data['Date_Time'] \n",
+    "del data['Date_Time'] \n",
+    "\n",
+    "# check time intervals\n",
+    "set_time_intervals = pd.Timedelta(\"0.5s\")\n",
+    "actual_time_intervals = data.index[1] -data.index[0]\n",
+    "if (set_time_intervals != actual_time_intervals):\n",
+    "    print(\"The time intervals now is:\", actual_time_intervals, \". Please check the downsample parameter!!\")\n",
+    "    \n",
+    "data.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## check and handle missing values\n",
+    "> * chech the sparsity of the data\n",
+    "> * compute missing values with carry-forward method\n",
+    "> * check the computation situation"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "#Check the number of missing values\n",
+    "missing_total=data.isnull().sum().sum()\n",
+    "missing_HR=data[\"HR\"].isnull().sum()\n",
+    "missing_Resp=data[\"Resp\"].isnull().sum()\n",
+    "print(\"There are {} missings in total, and {} for HR, {} for Resp.\".format(missing_total, missing_HR, missing_Resp))\n",
+    "if missing_HR > 10:\n",
+    "    raise Exception('Missing values of HR should not exceed 10.')\n",
+    "if missing_Resp > 10:\n",
+    "    raise Exception('Missing values of Resp should not exceed 10.')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "pd.options.mode.chained_assignment = None\n",
+    "#compute missing values with carry forward method\n",
+    "missing_HR_index = \n",
+    "data[\"HR\"].interpolate(method=\"nearest\", inplace=True) #better way for replacing missings\n",
+    "[data[\"HR\"].isnull()].index\n",
+    "missing_HR_compute_index = missing_HR_index - set_time_intervals\n",
+    "data[\"HR\"][data[\"HR\"].isnull()] = np.array(data[\"HR\"][missing_HR_compute_index])\n",
+    "\n",
+    "missing_Resp_index = data[\"Resp\"][data[\"Resp\"].isnull()].index\n",
+    "missing_Resp_compute_index = missing_Resp_index - set_time_intervals\n",
+    "data[\"Resp\"][data[\"Resp\"].isnull()] = np.array(data[\"Resp\"][missing_Resp_compute_index])\n",
+    "\n",
+    "#check the computation situation\n",
+    "missing_total=data.isnull().sum().sum()\n",
+    "missing_HR=data[\"HR\"].isnull().sum()\n",
+    "missing_Resp=data[\"Resp\"].isnull().sum()\n",
+    "print(\"There are {} missings in total, and {} for HR, {} for Resp.\".format(missing_total, missing_HR, missing_Resp))\n",
+    "if missing_HR != 0:\n",
+    "    raise Exception('Something wrong with missing values computing of HR.')\n",
+    "if missing_Resp != 0:\n",
+    "    raise Exception('Something wrong with missing values computing of Resp.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## quick exploration of data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": false
+   },
+   "outputs": [],
+   "source": [
+    "#check the comments for label\n",
+    "data[\"Comments\"][data[\"Comments\"].isnull()==False]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "t0 = pd.to_datetime(\"2018-6-4 6:50:00\") #starting time for sepsis\n",
+    "\n",
+    "#quick look at the data\n",
+    "print(\"The shape of data is: \", data.shape)\n",
+    "data[\"HR\"].resample(\"30T\").mean().plot()\n",
+    "(data[\"Resp\"]*100).resample(\"10S\").mean().plot()\n",
+    "plt.legend([\"Heart Rate\", \"Respiration Rate\"],\n",
+    "          loc=\"upper center\")\n",
+    "plt.axvline(t0, alpha=0.8, color =\"red\")\n",
+    "plt.text(t0, .5, 'comment time', color =\"red\",rotation=90)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Export the data\n",
+    "import csv\n",
+    "export_csv = data.to_csv (data_file[:-4]+\"_ts\"+data_file[-4:], header=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "tmp = pd.concat([pd.DataFrame(index=data.index[:10], data=np.ones(10)).resample(\"0.5S\").mean(), \n",
+    "                 pd.DataFrame(index=data.index[20:30], data=np.ones(10)).resample(\"0.5S\").mean()])\n",
+    "tmp.resample(\"0.5S\").mean()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python [conda env:p3]",
+   "language": "python",
+   "name": "conda-env-p3-py"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
