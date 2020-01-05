@@ -17,6 +17,7 @@ We use [Github][3] for versioning. For the versions available, see the [tags on 
 
 * **Jintai Liu** - [LeooLeoo][5] 
 * **Antoine Honoré** - 
+* **Vanesa Stojanovska** - 
 * **Eric Herlenius** - 
 
 ### Work to do:
