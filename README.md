@@ -16,7 +16,7 @@ We use [Github][3] for versioning. For the versions available, see the [tags on 
 ## Authors
 
 * **Jintai Liu** - [LeooLeoo][5] 
-* **Antoine Honoré** - 
+* **Antoine Honoré** - [barketplace]
 * **Vanesa Stojanovska** - 
 * **Eric Herlenius** - 
 
