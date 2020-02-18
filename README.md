@@ -16,7 +16,7 @@ We use [Github][3] for versioning. For the versions available, see the [tags on 
 ## Authors
 
 * **Jintai Liu** - [LeooLeoo][5] 
-* **Antoine Honoré** - 
+* **Antoine Honoré** - [barketplace][6]
 * **Vanesa Stojanovska** - 
 * **Eric Herlenius** - 
 
@@ -37,3 +37,4 @@ We use [Github][3] for versioning. For the versions available, see the [tags on 
 [3]:	https://github.com/
 [4]:	https://github.com/LeooLeoo/master-thesis-project
 [5]:	https://github.com/LeooLeoo
+[6]:	https://github.com/BarKetPlace
